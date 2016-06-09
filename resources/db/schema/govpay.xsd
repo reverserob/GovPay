@@ -1410,7 +1410,7 @@
 			</xsd:element>
 			<xsd:element name="codSingoloVersamentoEnte" type="String35"/>
 			<xsd:element name="importoPagato" type="xsd:double" />
-			
+			<xsd:element name="dataAcquisizione" type="xsd:dateTime"/>
 			<xsd:element name="iur" type="String35" />
 			<xsd:element name="dataPagamento" type="xsd:dateTime" />
 			<xsd:element name="commissioniPsp" type="xsd:decimal" minOccurs="0"/>
@@ -1450,6 +1450,7 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="dataAcquisizioneRevoca" type="xsd:dateTime" minOccurs="0"/>
 			<xsd:element name="causaleRevoca" type="String140" minOccurs="0"/>
 			<xsd:element name="datiRevoca" type="String140" minOccurs="0"/>
 			<xsd:element name="importoRevocato" type="xsd:decimal" minOccurs="0"/>
@@ -1487,7 +1488,6 @@
 					</xsd:appinfo>
 				</xsd:annotation>
 			</xsd:element>
-			
 		</xsd:sequence>
 	</xsd:complexType>
 	

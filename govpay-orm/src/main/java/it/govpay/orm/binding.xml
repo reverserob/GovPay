@@ -523,6 +523,7 @@
     <structure name="idSingoloVersamento" field="idSingoloVersamento" usage="required" map-as="_IdSingoloVersamento_Type"/>
     <value name="codSingoloVersamentoEnte" field="codSingoloVersamentoEnte" usage="required"/>
     <value name="importoPagato" field="importoPagato" usage="required"/>
+    <value name="dataAcquisizione" field="dataAcquisizione" usage="required"/>
     <value name="iur" field="iur" usage="required"/>
     <value name="dataPagamento" field="dataPagamento" usage="required"/>
     <value name="commissioniPsp" field="commissioniPsp" usage="optional"/>
@@ -535,6 +536,7 @@
     <value name="annoRiferimento" field="annoRiferimento" usage="optional"/>
     <value name="indiceSingoloPagamento" field="indiceSingoloPagamento" usage="optional"/>
     <structure name="idRr" field="idRr" usage="optional" map-as="_IdRr_Type"/>
+    <value name="dataAcquisizioneRevoca" field="dataAcquisizioneRevoca" usage="optional"/>
     <value name="causaleRevoca" field="causaleRevoca" usage="optional"/>
     <value name="datiRevoca" field="datiRevoca" usage="optional"/>
     <value name="importoRevocato" field="importoRevocato" usage="optional"/>

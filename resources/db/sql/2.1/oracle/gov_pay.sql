@@ -918,6 +918,7 @@ CREATE TABLE pagamenti
 (
 	cod_singolo_versamento_ente VARCHAR(35) NOT NULL,
 	importo_pagato BINARY_DOUBLE NOT NULL,
+	data_acquisizione TIMESTAMP NOT NULL,
 	iur VARCHAR(35) NOT NULL,
 	data_pagamento TIMESTAMP NOT NULL,
 	commissioni_psp BINARY_DOUBLE,
@@ -929,6 +930,7 @@ CREATE TABLE pagamenti
 	codflusso_rendicontazione VARCHAR(35),
 	anno_riferimento NUMBER,
 	indice_singolo_pagamento NUMBER,
+	data_acquisizione_revoca TIMESTAMP,
 	causale_revoca VARCHAR(140),
 	dati_revoca VARCHAR(140),
 	importo_revocato BINARY_DOUBLE,

@@ -627,6 +627,8 @@ CREATE TABLE pagamenti
 (
 	cod_singolo_versamento_ente VARCHAR(35) NOT NULL,
 	importo_pagato DOUBLE NOT NULL,
+	-- Precisione ai millisecondi supportata dalla versione 5.6.4, se si utilizza una versione precedente non usare il suffisso '(3)'
+	data_acquisizione TIMESTAMP(3) NOT NULL DEFAULT 0,
 	iur VARCHAR(35) NOT NULL,
 	-- Precisione ai millisecondi supportata dalla versione 5.6.4, se si utilizza una versione precedente non usare il suffisso '(3)'
 	data_pagamento TIMESTAMP(3) NOT NULL DEFAULT 0,
@@ -640,6 +642,8 @@ CREATE TABLE pagamenti
 	codflusso_rendicontazione VARCHAR(35),
 	anno_riferimento INT,
 	indice_singolo_pagamento INT,
+	-- Precisione ai millisecondi supportata dalla versione 5.6.4, se si utilizza una versione precedente non usare il suffisso '(3)'
+	data_acquisizione_revoca TIMESTAMP(3) DEFAULT 0,
 	causale_revoca VARCHAR(140),
 	dati_revoca VARCHAR(140),
 	importo_revocato DOUBLE,

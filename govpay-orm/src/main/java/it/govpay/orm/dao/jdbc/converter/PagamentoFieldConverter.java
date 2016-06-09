@@ -166,6 +166,13 @@ public class PagamentoFieldConverter extends AbstractSQLFieldConverter {
 				return "importo_pagato";
 			}
 		}
+		if(field.equals(Pagamento.model().DATA_ACQUISIZIONE)){
+			if(appendTablePrefix){
+				return this.toAliasTable(field)+".data_acquisizione";
+			}else{
+				return "data_acquisizione";
+			}
+		}
 		if(field.equals(Pagamento.model().IUR)){
 			if(appendTablePrefix){
 				return this.toAliasTable(field)+".iur";
@@ -262,6 +269,13 @@ public class PagamentoFieldConverter extends AbstractSQLFieldConverter {
 				return this.toAliasTable(field)+".cod_msg_revoca";
 			}else{
 				return "cod_msg_revoca";
+			}
+		}
+		if(field.equals(Pagamento.model().DATA_ACQUISIZIONE_REVOCA)){
+			if(appendTablePrefix){
+				return this.toAliasTable(field)+".data_acquisizione_revoca";
+			}else{
+				return "data_acquisizione_revoca";
 			}
 		}
 		if(field.equals(Pagamento.model().CAUSALE_REVOCA)){
@@ -410,6 +424,9 @@ public class PagamentoFieldConverter extends AbstractSQLFieldConverter {
 		if(field.equals(Pagamento.model().IMPORTO_PAGATO)){
 			return this.toTable(Pagamento.model(), returnAlias);
 		}
+		if(field.equals(Pagamento.model().DATA_ACQUISIZIONE)){
+			return this.toTable(Pagamento.model(), returnAlias);
+		}
 		if(field.equals(Pagamento.model().IUR)){
 			return this.toTable(Pagamento.model(), returnAlias);
 		}
@@ -451,6 +468,9 @@ public class PagamentoFieldConverter extends AbstractSQLFieldConverter {
 		}
 		if(field.equals(Pagamento.model().ID_RR.COD_MSG_REVOCA)){
 			return this.toTable(Pagamento.model().ID_RR, returnAlias);
+		}
+		if(field.equals(Pagamento.model().DATA_ACQUISIZIONE_REVOCA)){
+			return this.toTable(Pagamento.model(), returnAlias);
 		}
 		if(field.equals(Pagamento.model().CAUSALE_REVOCA)){
 			return this.toTable(Pagamento.model(), returnAlias);
