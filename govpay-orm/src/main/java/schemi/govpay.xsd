@@ -635,6 +635,9 @@
 			<xsd:element minOccurs="0" name="debitoreLocalita" type="String35"/>
 			<xsd:element minOccurs="0" name="debitoreProvincia" type="String35"/>
 			<xsd:element minOccurs="0" name="debitoreNazione" type="String2"/>
+			<xsd:element minOccurs="0" name="codLotto" type="String35"/>
+			<xsd:element minOccurs="0" name="codVersamentoLotto" type="String35"/>
+			<xsd:element minOccurs="0" name="codAnnoTributario" type="String35"/>
 			
 		</xsd:sequence>
 	</xsd:complexType>

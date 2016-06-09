@@ -594,6 +594,9 @@ CREATE TABLE versamenti
 	debitore_localita VARCHAR(35),
 	debitore_provincia VARCHAR(35),
 	debitore_nazione VARCHAR(2),
+	cod_lotto VARCHAR(35),
+	cod_versamento_lotto VARCHAR(35),
+	cod_anno_tributario VARCHAR(35),
 	-- fk/pk columns
 	id NUMBER NOT NULL,
 	id_uo NUMBER NOT NULL,

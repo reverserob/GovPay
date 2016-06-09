@@ -423,6 +423,9 @@
     <value name="debitoreLocalita" field="debitoreLocalita" usage="optional"/>
     <value name="debitoreProvincia" field="debitoreProvincia" usage="optional"/>
     <value name="debitoreNazione" field="debitoreNazione" usage="optional"/>
+    <value name="codLotto" field="codLotto" usage="optional"/>
+    <value name="codVersamentoLotto" field="codVersamentoLotto" usage="optional"/>
+    <value name="codAnnoTributario" field="codAnnoTributario" usage="optional"/>
   </mapping>
   <mapping name="Evento" class="it.govpay.orm.Evento">
     <namespace uri="http://www.govpay.it/orm" default="elements"/>

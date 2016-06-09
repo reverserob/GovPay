@@ -208,6 +208,27 @@ public class VersamentoFieldConverter extends AbstractSQLFieldConverter {
 				return "debitore_nazione";
 			}
 		}
+		if(field.equals(Versamento.model().COD_LOTTO)){
+			if(appendTablePrefix){
+				return this.toAliasTable(field)+".cod_lotto";
+			}else{
+				return "cod_lotto";
+			}
+		}
+		if(field.equals(Versamento.model().COD_VERSAMENTO_LOTTO)){
+			if(appendTablePrefix){
+				return this.toAliasTable(field)+".cod_versamento_lotto";
+			}else{
+				return "cod_versamento_lotto";
+			}
+		}
+		if(field.equals(Versamento.model().COD_ANNO_TRIBUTARIO)){
+			if(appendTablePrefix){
+				return this.toAliasTable(field)+".cod_anno_tributario";
+			}else{
+				return "cod_anno_tributario";
+			}
+		}
 
 
 		return super.toColumn(field,returnAlias,appendTablePrefix);
@@ -279,6 +300,15 @@ public class VersamentoFieldConverter extends AbstractSQLFieldConverter {
 			return this.toTable(Versamento.model(), returnAlias);
 		}
 		if(field.equals(Versamento.model().DEBITORE_NAZIONE)){
+			return this.toTable(Versamento.model(), returnAlias);
+		}
+		if(field.equals(Versamento.model().COD_LOTTO)){
+			return this.toTable(Versamento.model(), returnAlias);
+		}
+		if(field.equals(Versamento.model().COD_VERSAMENTO_LOTTO)){
+			return this.toTable(Versamento.model(), returnAlias);
+		}
+		if(field.equals(Versamento.model().COD_ANNO_TRIBUTARIO)){
 			return this.toTable(Versamento.model(), returnAlias);
 		}
 
