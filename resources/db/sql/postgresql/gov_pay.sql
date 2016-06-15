@@ -1,51 +1,40 @@
-CREATE SEQUENCE seq_psp MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_psp start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE psp
 (
 	cod_psp VARCHAR(35) NOT NULL,
 	ragione_sociale VARCHAR(70) NOT NULL,
 	url_info VARCHAR(255),
-	abilitato NUMBER NOT NULL,
-	storno NUMBER NOT NULL,
-	marca_bollo NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
+	storno BOOLEAN NOT NULL,
+	marca_bollo BOOLEAN NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_psp') NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_psp_1 UNIQUE (cod_psp),
 	-- fk/pk keys constraints
 	CONSTRAINT pk_psp PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_psp
-BEFORE
-insert on psp
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_psp.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_canali MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_canali start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE canali
 (
 	cod_canale VARCHAR(35) NOT NULL,
 	cod_intermediario VARCHAR(35) NOT NULL,
 	tipo_versamento VARCHAR(4) NOT NULL,
-	modello_pagamento NUMBER NOT NULL,
-	disponibilita CLOB,
-	descrizione CLOB,
+	modello_pagamento INT NOT NULL,
+	disponibilita TEXT,
+	descrizione TEXT,
 	condizioni VARCHAR(35),
 	url_info VARCHAR(255),
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_psp NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_canali') NOT NULL,
+	id_psp BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_canali_1 UNIQUE (id_psp,cod_canale,tipo_versamento),
 	-- fk/pk keys constraints
@@ -53,61 +42,39 @@ CREATE TABLE canali
 	CONSTRAINT pk_canali PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_canali
-BEFORE
-insert on canali
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_canali.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_intermediari MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_intermediari start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE intermediari
 (
 	cod_intermediario VARCHAR(35) NOT NULL,
 	cod_connettore_pdd VARCHAR(35) NOT NULL,
 	denominazione VARCHAR(255) NOT NULL,
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_intermediari') NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_intermediari_1 UNIQUE (cod_intermediario),
 	-- fk/pk keys constraints
 	CONSTRAINT pk_intermediari PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_intermediari
-BEFORE
-insert on intermediari
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_intermediari.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_stazioni MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_stazioni start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE stazioni
 (
 	cod_stazione VARCHAR(35) NOT NULL,
 	password VARCHAR(35) NOT NULL,
-	abilitato NUMBER NOT NULL,
-	application_code NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
+	application_code INT NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_intermediario NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_stazioni') NOT NULL,
+	id_intermediario BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_stazioni_1 UNIQUE (cod_stazione),
 	-- fk/pk keys constraints
@@ -115,33 +82,22 @@ CREATE TABLE stazioni
 	CONSTRAINT pk_stazioni PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_stazioni
-BEFORE
-insert on stazioni
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_stazioni.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_applicazioni MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_applicazioni start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE applicazioni
 (
 	cod_applicazione VARCHAR(35) NOT NULL,
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	principal VARCHAR(255) NOT NULL,
 	firma_ricevuta VARCHAR(1) NOT NULL,
 	cod_connettore_esito VARCHAR(255),
 	cod_connettore_verifica VARCHAR(255),
-	trusted NUMBER NOT NULL,
+	trusted BOOLEAN NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_applicazioni') NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_applicazioni_1 UNIQUE (cod_applicazione),
 	CONSTRAINT unique_applicazioni_2 UNIQUE (principal),
@@ -149,36 +105,25 @@ CREATE TABLE applicazioni
 	CONSTRAINT pk_applicazioni PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_applicazioni
-BEFORE
-insert on applicazioni
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_applicazioni.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_domini MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_domini start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE domini
 (
 	cod_dominio VARCHAR(35) NOT NULL,
 	gln VARCHAR(35) NOT NULL,
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	ragione_sociale VARCHAR(70) NOT NULL,
-	xml_conti_accredito BLOB NOT NULL,
-	xml_tabella_controparti BLOB NOT NULL,
-	riuso_iuv NUMBER NOT NULL,
-	custom_iuv NUMBER NOT NULL,
+	xml_conti_accredito BYTEA NOT NULL,
+	xml_tabella_controparti BYTEA NOT NULL,
+	riuso_iuv BOOLEAN NOT NULL,
+	custom_iuv BOOLEAN NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_stazione NUMBER NOT NULL,
-	id_applicazione_default NUMBER,
+	id BIGINT DEFAULT nextval('seq_domini') NOT NULL,
+	id_stazione BIGINT NOT NULL,
+	id_applicazione_default BIGINT,
 	-- unique constraints
 	CONSTRAINT unique_domini_1 UNIQUE (cod_dominio),
 	-- fk/pk keys constraints
@@ -187,26 +132,15 @@ CREATE TABLE domini
 	CONSTRAINT pk_domini PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_domini
-BEFORE
-insert on domini
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_domini.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_uo MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_uo start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE uo
 (
 	cod_uo VARCHAR(35) NOT NULL,
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	uo_codice_identificativo VARCHAR(35),
 	uo_denominazione VARCHAR(70),
 	uo_indirizzo VARCHAR(70),
@@ -216,8 +150,8 @@ CREATE TABLE uo
 	uo_provincia VARCHAR(35),
 	uo_nazione VARCHAR(2),
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_dominio NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_uo') NOT NULL,
+	id_dominio BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_uo_1 UNIQUE (cod_uo,id_dominio),
 	-- fk/pk keys constraints
@@ -225,30 +159,19 @@ CREATE TABLE uo
 	CONSTRAINT pk_uo PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_uo
-BEFORE
-insert on uo
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_uo.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_operatori MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_operatori start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE operatori
 (
 	principal VARCHAR(255) NOT NULL,
 	nome VARCHAR(35) NOT NULL,
 	profilo VARCHAR(16) NOT NULL,
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL DEFAULT true,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_operatori') NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_operatori_1 UNIQUE (principal),
 	-- fk/pk keys constraints
@@ -256,79 +179,43 @@ CREATE TABLE operatori
 );
 
 
-ALTER TABLE operatori MODIFY abilitato DEFAULT 1;
-
-CREATE TRIGGER trg_operatori
-BEFORE
-insert on operatori
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_operatori.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
-
-CREATE SEQUENCE seq_operatori_uo MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_operatori_uo start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE operatori_uo
 (
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_operatore NUMBER NOT NULL,
-	id_uo NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_operatori_uo') NOT NULL,
+	id_operatore BIGINT NOT NULL,
+	id_uo BIGINT NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_operatori_uo_1 FOREIGN KEY (id_operatore) REFERENCES operatori(id) ON DELETE CASCADE,
 	CONSTRAINT fk_operatori_uo_2 FOREIGN KEY (id_uo) REFERENCES uo(id) ON DELETE CASCADE,
 	CONSTRAINT pk_operatori_uo PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_operatori_uo
-BEFORE
-insert on operatori_uo
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_operatori_uo.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_operatori_applicazioni MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_operatori_applicazioni start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE operatori_applicazioni
 (
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_operatore NUMBER NOT NULL,
-	id_applicazione NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_operatori_applicazioni') NOT NULL,
+	id_operatore BIGINT NOT NULL,
+	id_applicazione BIGINT NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_operatori_applicazioni_1 FOREIGN KEY (id_operatore) REFERENCES operatori(id) ON DELETE CASCADE,
 	CONSTRAINT fk_operatori_applicazioni_2 FOREIGN KEY (id_applicazione) REFERENCES applicazioni(id) ON DELETE CASCADE,
 	CONSTRAINT pk_operatori_applicazioni PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_operatori_applicazioni
-BEFORE
-insert on operatori_applicazioni
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_operatori_applicazioni.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_connettori MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_connettori start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE connettori
 (
@@ -336,37 +223,26 @@ CREATE TABLE connettori
 	cod_proprieta VARCHAR(255) NOT NULL,
 	valore VARCHAR(255) NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_connettori') NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_connettori_1 UNIQUE (cod_connettore,cod_proprieta),
 	-- fk/pk keys constraints
 	CONSTRAINT pk_connettori PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_connettori
-BEFORE
-insert on connettori
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_connettori.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_portali MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_portali start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE portali
 (
 	cod_portale VARCHAR(35) NOT NULL,
 	default_callback_url VARCHAR(512) NOT NULL,
 	principal VARCHAR(255) NOT NULL,
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_portali') NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_portali_1 UNIQUE (cod_portale),
 	CONSTRAINT unique_portali_2 UNIQUE (principal),
@@ -374,77 +250,44 @@ CREATE TABLE portali
 	CONSTRAINT pk_portali PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_portali
-BEFORE
-insert on portali
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_portali.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_operatori_portali MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_operatori_portali start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE operatori_portali
 (
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_operatore NUMBER NOT NULL,
-	id_portale NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_operatori_portali') NOT NULL,
+	id_operatore BIGINT NOT NULL,
+	id_portale BIGINT NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_operatori_portali_1 FOREIGN KEY (id_operatore) REFERENCES operatori(id) ON DELETE CASCADE,
 	CONSTRAINT fk_operatori_portali_2 FOREIGN KEY (id_portale) REFERENCES portali(id) ON DELETE CASCADE,
 	CONSTRAINT pk_operatori_portali PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_operatori_portali
-BEFORE
-insert on operatori_portali
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_operatori_portali.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_portali_applicazioni MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_portali_applicazioni start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE portali_applicazioni
 (
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_portale NUMBER NOT NULL,
-	id_applicazione NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_portali_applicazioni') NOT NULL,
+	id_portale BIGINT NOT NULL,
+	id_applicazione BIGINT NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_portali_applicazioni_1 FOREIGN KEY (id_portale) REFERENCES portali(id) ON DELETE CASCADE,
 	CONSTRAINT fk_portali_applicazioni_2 FOREIGN KEY (id_applicazione) REFERENCES applicazioni(id) ON DELETE CASCADE,
 	CONSTRAINT pk_portali_applicazioni PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_portali_applicazioni
-BEFORE
-insert on portali_applicazioni
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_portali_applicazioni.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_iban_accredito MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_iban_accredito start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE iban_accredito
 (
@@ -454,12 +297,12 @@ CREATE TABLE iban_accredito
 	bic_accredito VARCHAR(255),
 	iban_appoggio VARCHAR(255),
 	bic_appoggio VARCHAR(255),
-	postale NUMBER NOT NULL,
-	attivato NUMBER NOT NULL,
-	abilitato NUMBER NOT NULL,
+	postale BOOLEAN NOT NULL,
+	attivato BOOLEAN NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_dominio NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_iban_accredito') NOT NULL,
+	id_dominio BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_iban_accredito_1 UNIQUE (cod_iban,id_dominio),
 	-- fk/pk keys constraints
@@ -467,33 +310,22 @@ CREATE TABLE iban_accredito
 	CONSTRAINT pk_iban_accredito PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_iban_accredito
-BEFORE
-insert on iban_accredito
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_iban_accredito.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_tributi MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_tributi start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE tributi
 (
 	cod_tributo VARCHAR(35) NOT NULL,
-	abilitato NUMBER NOT NULL,
+	abilitato BOOLEAN NOT NULL,
 	descrizione VARCHAR(255),
 	tipo_contabilita VARCHAR(1) NOT NULL,
 	codice_contabilita VARCHAR(255) NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_dominio NUMBER NOT NULL,
-	id_iban_accredito NUMBER,
+	id BIGINT DEFAULT nextval('seq_tributi') NOT NULL,
+	id_dominio BIGINT NOT NULL,
+	id_iban_accredito BIGINT,
 	-- unique constraints
 	CONSTRAINT unique_tributi_1 UNIQUE (id_dominio,cod_tributo),
 	-- fk/pk keys constraints
@@ -502,86 +334,53 @@ CREATE TABLE tributi
 	CONSTRAINT pk_tributi PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_tributi
-BEFORE
-insert on tributi
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_tributi.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_applicazioni_tributi MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_applicazioni_tributi start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE applicazioni_tributi
 (
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_applicazione NUMBER,
-	id_tributo NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_applicazioni_tributi') NOT NULL,
+	id_applicazione BIGINT,
+	id_tributo BIGINT NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_applicazioni_tributi_1 FOREIGN KEY (id_applicazione) REFERENCES applicazioni(id) ON DELETE CASCADE,
 	CONSTRAINT fk_applicazioni_tributi_2 FOREIGN KEY (id_tributo) REFERENCES tributi(id) ON DELETE CASCADE,
 	CONSTRAINT pk_applicazioni_tributi PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_applicazioni_tributi
-BEFORE
-insert on applicazioni_tributi
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_applicazioni_tributi.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_applicazioni_domini MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_applicazioni_domini start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE applicazioni_domini
 (
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_applicazione NUMBER,
-	id_dominio NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_applicazioni_domini') NOT NULL,
+	id_applicazione BIGINT,
+	id_dominio BIGINT NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_applicazioni_domini_1 FOREIGN KEY (id_applicazione) REFERENCES applicazioni(id) ON DELETE CASCADE,
 	CONSTRAINT fk_applicazioni_domini_2 FOREIGN KEY (id_dominio) REFERENCES domini(id) ON DELETE CASCADE,
 	CONSTRAINT pk_applicazioni_domini PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_applicazioni_domini
-BEFORE
-insert on applicazioni_domini
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_applicazioni_domini.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_versamenti MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_versamenti start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE versamenti
 (
 	cod_versamento_ente VARCHAR(35) NOT NULL,
-	importo_totale BINARY_DOUBLE NOT NULL,
+	importo_totale DOUBLE PRECISION NOT NULL,
 	stato_versamento VARCHAR(35) NOT NULL,
 	descrizione_stato VARCHAR(255),
 	-- Indica se, decorsa la dataScadenza, deve essere aggiornato da remoto o essere considerato scaduto
-	aggiornabile NUMBER NOT NULL,
+	aggiornabile BOOLEAN NOT NULL,
 	data_creazione TIMESTAMP NOT NULL,
 	data_scadenza TIMESTAMP,
 	data_ora_ultimo_aggiornamento TIMESTAMP NOT NULL,
@@ -598,9 +397,9 @@ CREATE TABLE versamenti
 	cod_versamento_lotto VARCHAR(35),
 	cod_anno_tributario VARCHAR(35),
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_uo NUMBER NOT NULL,
-	id_applicazione NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_versamenti') NOT NULL,
+	id_uo BIGINT NOT NULL,
+	id_applicazione BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_versamenti_1 UNIQUE (cod_versamento_ente,id_applicazione),
 	-- fk/pk keys constraints
@@ -609,28 +408,17 @@ CREATE TABLE versamenti
 	CONSTRAINT pk_versamenti PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_versamenti
-BEFORE
-insert on versamenti
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_versamenti.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_singoli_versamenti MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_singoli_versamenti start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE singoli_versamenti
 (
 	cod_singolo_versamento_ente VARCHAR(70) NOT NULL,
 	stato_singolo_versamento VARCHAR(35) NOT NULL,
-	importo_singolo_versamento BINARY_DOUBLE NOT NULL,
-	anno_riferimento NUMBER,
+	importo_singolo_versamento DOUBLE PRECISION NOT NULL,
+	anno_riferimento INT,
 	-- MARCA BOLLO Valori possibili:\n01: Imposta di bollo
 	tipo_bollo VARCHAR(2),
 	-- MARCA BOLLO: Digest in Base64 del documento da bollare
@@ -640,10 +428,10 @@ CREATE TABLE singoli_versamenti
 	tipo_contabilita VARCHAR(1),
 	codice_contabilita VARCHAR(255),
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_versamento NUMBER NOT NULL,
-	id_tributo NUMBER,
-	id_iban_accredito NUMBER,
+	id BIGINT DEFAULT nextval('seq_singoli_versamenti') NOT NULL,
+	id_versamento BIGINT NOT NULL,
+	id_tributo BIGINT,
+	id_iban_accredito BIGINT,
 	-- unique constraints
 	CONSTRAINT unique_singoli_versamenti_1 UNIQUE (id_versamento,cod_singolo_versamento_ente),
 	-- fk/pk keys constraints
@@ -653,21 +441,10 @@ CREATE TABLE singoli_versamenti
 	CONSTRAINT pk_singoli_versamenti PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_singoli_versamenti
-BEFORE
-insert on singoli_versamenti
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_singoli_versamenti.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_rpt MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_rpt start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE rpt
 (
@@ -681,28 +458,30 @@ CREATE TABLE rpt
 	data_msg_richiesta TIMESTAMP NOT NULL,
 	-- Stato RPT secondo la codifica AgID
 	stato VARCHAR(35) NOT NULL,
-	descrizione_stato CLOB,
+	descrizione_stato TEXT,
 	cod_sessione VARCHAR(255),
 	-- Indirizzo del portale psp a cui redirigere il cittadino per eseguire il pagamento
 	psp_redirect_url VARCHAR(512),
-	xml_rpt BLOB NOT NULL,
+	xml_rpt BYTEA NOT NULL,
 	data_aggiornamento_stato TIMESTAMP NOT NULL,
 	-- Indirizzo di ritorno al portale dell'ente al termine del pagamento
-	callback_url CLOB,
+	callback_url TEXT,
 	modello_pagamento VARCHAR(16) NOT NULL,
 	cod_msg_ricevuta VARCHAR(35),
 	data_msg_ricevuta TIMESTAMP,
 	firma_ricevuta VARCHAR(1) NOT NULL,
 	-- Esito del pagamento:\n0: Eseguito\n1: Non eseguito\n2: Parzialmente eseguito\n3: Decorrenza\n4: Decorrenza Parziale
-	cod_esito_pagamento NUMBER,
-	importo_totale_pagato BINARY_DOUBLE,
-	xml_rt BLOB,
+	cod_esito_pagamento INT,
+	importo_totale_pagato DOUBLE PRECISION,
+	xml_rt BYTEA,
 	cod_stazione VARCHAR(35) NOT NULL,
+	cod_transazione_rpt VARCHAR(36),
+	cod_transazione_rt VARCHAR(36),
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_versamento NUMBER NOT NULL,
-	id_canale NUMBER NOT NULL,
-	id_portale NUMBER,
+	id BIGINT DEFAULT nextval('seq_rpt') NOT NULL,
+	id_versamento BIGINT NOT NULL,
+	id_canale BIGINT NOT NULL,
+	id_portale BIGINT,
 	-- unique constraints
 	CONSTRAINT unique_rpt_1 UNIQUE (cod_msg_richiesta),
 	CONSTRAINT unique_rpt_2 UNIQUE (iuv,ccp,cod_dominio),
@@ -713,21 +492,10 @@ CREATE TABLE rpt
 	CONSTRAINT pk_rpt PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_rpt
-BEFORE
-insert on rpt
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_rpt.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_rr MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_rr start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE rr
 (
@@ -739,14 +507,16 @@ CREATE TABLE rr
 	data_msg_esito TIMESTAMP,
 	stato VARCHAR(35) NOT NULL,
 	descrizione_stato VARCHAR(512),
-	importo_totale_richiesto BINARY_DOUBLE NOT NULL,
+	importo_totale_richiesto DOUBLE PRECISION NOT NULL,
 	cod_msg_esito VARCHAR(35),
-	importo_totale_revocato BINARY_DOUBLE,
-	xml_rr BLOB NOT NULL,
-	xml_er BLOB,
+	importo_totale_revocato DOUBLE PRECISION,
+	xml_rr BYTEA NOT NULL,
+	xml_er BYTEA,
+	cod_transazione_rr VARCHAR(36),
+	cod_transazione_er VARCHAR(36),
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_rpt NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_rr') NOT NULL,
+	id_rpt BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_rr_1 UNIQUE (cod_msg_revoca),
 	-- fk/pk keys constraints
@@ -754,21 +524,10 @@ CREATE TABLE rr
 	CONSTRAINT pk_rr PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_rr
-BEFORE
-insert on rr
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_rr.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_notifiche MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_notifiche start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE notifiche
 (
@@ -778,12 +537,12 @@ CREATE TABLE notifiche
 	descrizione_stato VARCHAR(255),
 	data_aggiornamento_stato TIMESTAMP NOT NULL,
 	data_prossima_spedizione TIMESTAMP NOT NULL,
-	tentativi_spedizione NUMBER,
+	tentativi_spedizione BIGINT,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_applicazione NUMBER NOT NULL,
-	id_rpt NUMBER,
-	id_rr NUMBER,
+	id BIGINT DEFAULT nextval('seq_notifiche') NOT NULL,
+	id_applicazione BIGINT NOT NULL,
+	id_rpt BIGINT,
+	id_rr BIGINT,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_notifiche_1 FOREIGN KEY (id_applicazione) REFERENCES applicazioni(id) ON DELETE CASCADE,
 	CONSTRAINT fk_notifiche_2 FOREIGN KEY (id_rpt) REFERENCES rpt(id) ON DELETE CASCADE,
@@ -791,34 +550,23 @@ CREATE TABLE notifiche
 	CONSTRAINT pk_notifiche PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_notifiche
-BEFORE
-insert on notifiche
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_notifiche.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_iuv MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_iuv start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE iuv
 (
-	prg NUMBER NOT NULL,
+	prg BIGINT NOT NULL,
 	iuv VARCHAR(35) NOT NULL,
-	application_code NUMBER NOT NULL,
+	application_code INT NOT NULL,
 	data_generazione DATE NOT NULL,
 	tipo_iuv VARCHAR(1) NOT NULL,
 	cod_versamento_ente VARCHAR(35),
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_applicazione NUMBER NOT NULL,
-	id_dominio NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_iuv') NOT NULL,
+	id_applicazione BIGINT NOT NULL,
+	id_dominio BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_iuv_1 UNIQUE (id_dominio,iuv),
 	-- fk/pk keys constraints
@@ -827,39 +575,28 @@ CREATE TABLE iuv
 	CONSTRAINT pk_iuv PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_iuv
-BEFORE
-insert on iuv
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_iuv.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_fr MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_fr start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE fr
 (
 	cod_flusso VARCHAR(35) NOT NULL,
 	stato VARCHAR(35) NOT NULL,
-	descrizione_stato CLOB,
+	descrizione_stato TEXT,
 	iur VARCHAR(35) NOT NULL,
-	anno_riferimento NUMBER NOT NULL,
+	anno_riferimento INT NOT NULL,
 	data_ora_flusso TIMESTAMP,
 	data_regolamento TIMESTAMP,
-	numero_pagamenti NUMBER,
-	importo_totale_pagamenti BINARY_DOUBLE,
+	numero_pagamenti BIGINT,
+	importo_totale_pagamenti DOUBLE PRECISION,
 	cod_bic_riversamento VARCHAR(35),
-	xml BLOB NOT NULL,
+	xml BYTEA NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_psp NUMBER NOT NULL,
-	id_dominio NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_fr') NOT NULL,
+	id_psp BIGINT NOT NULL,
+	id_dominio BIGINT NOT NULL,
 	-- unique constraints
 	CONSTRAINT unique_fr_1 UNIQUE (cod_flusso,anno_riferimento),
 	-- fk/pk keys constraints
@@ -868,86 +605,64 @@ CREATE TABLE fr
 	CONSTRAINT pk_fr PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_fr
-BEFORE
-insert on fr
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_fr.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_fr_applicazioni MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_fr_applicazioni start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE fr_applicazioni
 (
-	numero_pagamenti NUMBER NOT NULL,
-	importo_totale_pagamenti BINARY_DOUBLE NOT NULL,
+	numero_pagamenti BIGINT NOT NULL,
+	importo_totale_pagamenti DOUBLE PRECISION NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_applicazione NUMBER NOT NULL,
-	id_fr NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_fr_applicazioni') NOT NULL,
+	id_applicazione BIGINT NOT NULL,
+	id_fr BIGINT NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_fr_applicazioni_1 FOREIGN KEY (id_applicazione) REFERENCES applicazioni(id) ON DELETE CASCADE,
 	CONSTRAINT fk_fr_applicazioni_2 FOREIGN KEY (id_fr) REFERENCES fr(id) ON DELETE CASCADE,
 	CONSTRAINT pk_fr_applicazioni PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_fr_applicazioni
-BEFORE
-insert on fr_applicazioni
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_fr_applicazioni.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_pagamenti MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_pagamenti start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE pagamenti
 (
 	cod_singolo_versamento_ente VARCHAR(35) NOT NULL,
-	importo_pagato BINARY_DOUBLE NOT NULL,
+	importo_pagato DOUBLE PRECISION NOT NULL,
 	data_acquisizione TIMESTAMP NOT NULL,
 	iur VARCHAR(35) NOT NULL,
 	data_pagamento TIMESTAMP NOT NULL,
-	commissioni_psp BINARY_DOUBLE,
+	commissioni_psp DOUBLE PRECISION,
 	-- Valori possibili:\nES: Esito originario\nBD: Marca da Bollo
 	tipo_allegato VARCHAR(2),
-	allegato BLOB,
-	rendicontazione_esito NUMBER,
+	allegato BYTEA,
+	rendicontazione_esito INT,
 	rendicontazione_data TIMESTAMP,
 	codflusso_rendicontazione VARCHAR(35),
-	anno_riferimento NUMBER,
-	indice_singolo_pagamento NUMBER,
+	anno_riferimento INT,
+	indice_singolo_pagamento INT,
 	data_acquisizione_revoca TIMESTAMP,
 	causale_revoca VARCHAR(140),
 	dati_revoca VARCHAR(140),
-	importo_revocato BINARY_DOUBLE,
+	importo_revocato DOUBLE PRECISION,
 	esito_revoca VARCHAR(140),
 	dati_esito_revoca VARCHAR(140),
-	rendicontazione_esito_revoca NUMBER,
+	rendicontazione_esito_revoca INT,
 	rendicontazione_data_revoca TIMESTAMP,
 	cod_flusso_rendicontaz_revoca VARCHAR(35),
-	anno_riferimento_revoca NUMBER,
-	ind_singolo_pagamento_revoca NUMBER,
+	anno_riferimento_revoca INT,
+	ind_singolo_pagamento_revoca INT,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_rpt NUMBER NOT NULL,
-	id_singolo_versamento NUMBER NOT NULL,
-	id_fr_applicazione NUMBER,
-	id_rr NUMBER,
-	id_fr_applicazione_revoca NUMBER,
+	id BIGINT DEFAULT nextval('seq_pagamenti') NOT NULL,
+	id_rpt BIGINT NOT NULL,
+	id_singolo_versamento BIGINT NOT NULL,
+	id_fr_applicazione BIGINT,
+	id_rr BIGINT,
+	id_fr_applicazione_revoca BIGINT,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_pagamenti_1 FOREIGN KEY (id_rpt) REFERENCES rpt(id) ON DELETE CASCADE,
 	CONSTRAINT fk_pagamenti_2 FOREIGN KEY (id_singolo_versamento) REFERENCES singoli_versamenti(id) ON DELETE CASCADE,
@@ -957,21 +672,10 @@ CREATE TABLE pagamenti
 	CONSTRAINT pk_pagamenti PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_pagamenti
-BEFORE
-insert on pagamenti
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_pagamenti.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_eventi MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_eventi start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE eventi
 (
@@ -994,37 +698,26 @@ CREATE TABLE eventi
 	data_1 TIMESTAMP,
 	data_2 TIMESTAMP,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
+	id BIGINT DEFAULT nextval('seq_eventi') NOT NULL,
 	-- fk/pk keys constraints
 	CONSTRAINT pk_eventi PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_eventi
-BEFORE
-insert on eventi
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_eventi.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
-CREATE SEQUENCE seq_rendicontazioni_senza_rpt MINVALUE 1 MAXVALUE 9223372036854775807 START WITH 1 INCREMENT BY 1 CACHE 2 NOCYCLE;
+CREATE SEQUENCE seq_rendicontazioni_senza_rpt start 1 increment 1 maxvalue 9223372036854775807 minvalue 1 cache 1 NO CYCLE;
 
 CREATE TABLE rendicontazioni_senza_rpt
 (
-	importo_pagato BINARY_DOUBLE NOT NULL,
+	importo_pagato DOUBLE PRECISION NOT NULL,
 	iur VARCHAR(35) NOT NULL,
 	rendicontazione_data DATE NOT NULL,
 	-- fk/pk columns
-	id NUMBER NOT NULL,
-	id_fr_applicazione NUMBER NOT NULL,
-	id_iuv NUMBER NOT NULL,
-	id_singolo_versamento NUMBER,
+	id BIGINT DEFAULT nextval('seq_rendicontazioni_senza_rpt') NOT NULL,
+	id_fr_applicazione BIGINT NOT NULL,
+	id_iuv BIGINT NOT NULL,
+	id_singolo_versamento BIGINT,
 	-- fk/pk keys constraints
 	CONSTRAINT fk_rendicontazioni_senza_rpt_1 FOREIGN KEY (id_fr_applicazione) REFERENCES fr_applicazioni(id) ON DELETE CASCADE,
 	CONSTRAINT fk_rendicontazioni_senza_rpt_2 FOREIGN KEY (id_iuv) REFERENCES iuv(id) ON DELETE CASCADE,
@@ -1032,31 +725,17 @@ CREATE TABLE rendicontazioni_senza_rpt
 	CONSTRAINT pk_rendicontazioni_senza_rpt PRIMARY KEY (id)
 );
 
-CREATE TRIGGER trg_rendicontazioni_senza_rpt
-BEFORE
-insert on rendicontazioni_senza_rpt
-for each row
-begin
-   IF (:new.id IS NULL) THEN
-      SELECT seq_rendicontazioni_senza_rpt.nextval INTO :new.id
-                FROM DUAL;
-   END IF;
-end;
-/
 
 
 
 CREATE TABLE ID_MESSAGGIO_RELATIVO
 (
-	COUNTER NUMBER NOT NULL,
+	COUNTER BIGINT NOT NULL,
 	PROTOCOLLO VARCHAR(255) NOT NULL,
 	INFO_ASSOCIATA VARCHAR(255) NOT NULL,
-	ora_registrazione TIMESTAMP,
+	ora_registrazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	-- fk/pk columns
 	-- fk/pk keys constraints
 	CONSTRAINT pk_ID_MESSAGGIO_RELATIVO PRIMARY KEY (PROTOCOLLO,INFO_ASSOCIATA)
 );
-
-
-ALTER TABLE ID_MESSAGGIO_RELATIVO MODIFY ora_registrazione DEFAULT CURRENT_TIMESTAMP;
 
